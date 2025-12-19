@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jonh Investe 👨‍💻</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jonh Investe 👨‍💻</h1>
+
+  <input id="desc" placeholder="Descrição do gasto">
+  <input id="valor" type="number" placeholder="Valor">
+  <button onclick="salvar()">Salvar gasto</button>
+
+  <ul id="lista"></ul>
+
+<script>
+let gastos = JSON.parse(localStorage.getItem("gastos")) || [];
+
+function salvar() {
+  const desc = document.getElementById("desc").value;
+  const valor = document.getElementById("valor").value;
+
+  if (!desc || !valor) return;
+
+  gastos.push({ desc, valor });
+  localStorage.setItem("gastos", JSON.stringify(gastos));
+  mostrar();
+}
+
+function mostrar() {
+  const ul = document.getElementById("lista");
+  ul.innerHTML = "";
+  gastos.forEach(g => {
+    ul.innerHTML += `<li>${g.desc} - R$ ${g.valor}</li>`;
+  });
+}
+
+mostrar();
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+</body>
+</html>
